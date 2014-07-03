@@ -36,19 +36,19 @@ fn debugdirstate() {
                  entry.mode & 0o0777, entry.size,
                  {
                      if entry.mtime == -1 {
-                         "unset".to_owned()
+                         "unset".to_string()
                      } else {
                          time::at(time::Timespec {
                              sec:entry.mtime as i64,
                              nsec: 0,
-                         }).strftime("%Y-%m-%d %H:%M:%S").to_owned()
+                         }).strftime("%Y-%m-%d %H:%M:%S").to_string()
                      }
                  },
                  entry.name.container_as_str().unwrap());
     }
 }
 
-fn debugindex(args: Vec<~str>) {
+fn debugindex(args: Vec<String>) {
     //! Dump the contents of an index file.
     let index_filename = match args.get(2).as_slice() {
         "-c" => ".hg/store/00changelog.i",
@@ -67,13 +67,13 @@ fn debugindex(args: Vec<~str>) {
                  record.shortid(),
                  {
                      if record.p1 == -1 {
-                         nullrev.to_owned()
+                         nullrev.to_string()
                      } else {
                          index.records.get(record.p1 as uint).shortid()}
                  },
                  {
                      if record.p2 == -1 {
-                         nullrev.to_owned()
+                         nullrev.to_string()
                      } else {
                          index.records.get(record.p2 as uint).shortid()}
                  });
