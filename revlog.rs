@@ -66,6 +66,6 @@ impl Revlog {
 
 impl RevlogRecord {
     pub fn shortid(&self) -> String {
-        self.nodeid.slice(0, 6).to_hex().to_str()
+        self.nodeid.slice(0, 6).to_hex()
     }
 }

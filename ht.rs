@@ -1,6 +1,6 @@
 //! Hematite; Mercurial implementation in Rust.
 
-#![crate_id = "ht"]
+#![crate_name = "ht"]
 #![crate_type = "bin"]
 
 #![comment = "Hematite"]
@@ -50,10 +50,10 @@ fn debugdirstate() {
 
 fn debugindex(args: Vec<String>) {
     //! Dump the contents of an index file.
-    let index_filename = match args.get(2).as_slice() {
+    let index_filename = match args[2].as_slice() {
         "-c" => ".hg/store/00changelog.i",
         "-m" => ".hg/store/00manifest.i",
-        _    => args.get(2).as_slice(),
+        _    => args[2].as_slice(),
     };
     let path = &Path::new(index_filename);
     let mut f = File::open(path);
@@ -86,7 +86,7 @@ fn main() {
     if args.len() < 2 {
         usage();
     } else {
-        match args.get(1).as_slice() {
+        match args[1].as_slice() {
             "debugdirstate" => debugdirstate(),
             "debugindex"    => debugindex(args),
             _               => usage(),
