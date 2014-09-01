@@ -1,6 +1,6 @@
 //! Hematite; Mercurial implementation in Rust.
 
-#![crate_name = "ht"]
+#![crate_name = "hematite"]
 #![crate_type = "bin"]
 
 #![comment = "Hematite"]
