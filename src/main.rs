@@ -69,13 +69,19 @@ fn debugindex(args: Vec<String>) {
                      if record.p1 == -1 {
                          nullrev.to_string()
                      } else {
-                         index.records.get(record.p1 as uint).shortid()}
+                         index.records.get(record.p1 as uint)
+                                      .unwrap()
+                                      .shortid()
+                     }
                  },
                  {
                      if record.p2 == -1 {
                          nullrev.to_string()
                      } else {
-                         index.records.get(record.p2 as uint).shortid()}
+                         index.records.get(record.p2 as uint)
+                                      .unwrap()
+                                      .shortid()
+                     }
                  });
     };
 }

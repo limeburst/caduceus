@@ -3,3 +3,7 @@
 name = "hematite"
 version = "0.0.1"
 authors = ["Jihyeok Seo <me@limeburst.net>"]
+
+[dependencies.time]
+
+git = "http://github.com/rust-lang/time"
