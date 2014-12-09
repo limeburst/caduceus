@@ -1,8 +1,5 @@
 //! Hematite; Mercurial implementation in Rust.
 
-#![crate_name = "hematite"]
-#![crate_type = "bin"]
-
 extern crate serialize;
 extern crate time;
 
