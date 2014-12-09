@@ -1,9 +1,16 @@
 [package]
-
 name = "hematite"
 version = "0.0.1"
 authors = ["Jihyeok Seo <me@limeburst.net>"]
 
-[dependencies.time]
+description = "Mercurial implementation in Rust"
+homepage = "https://github.com/limeburst/hematite"
+repository = "https://github.com/limeburst/hematite"
+readme = "README.md"
+license = "GPL-2.0"
 
+[[bin]]
+name = "ht"
+
+[dependencies.time]
 git = "http://github.com/rust-lang/time"
