@@ -3,9 +3,6 @@
 #![crate_name = "hematite"]
 #![crate_type = "bin"]
 
-#![comment = "Hematite"]
-#![license = "GPLv2+"]
-
 extern crate serialize;
 extern crate time;
 
