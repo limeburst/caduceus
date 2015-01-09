@@ -26,7 +26,7 @@ fn debugdirstate() {
     let mut dirstate = dirstate::Dirstate::from_reader(&mut f);
     dirstate.entries.sort_by(|a, b| a.name.cmp(&b.name));
     for entry in dirstate.entries.iter() {
-        println!("{:} {:o} {:>10} {:<19} {}", entry.state.to_ascii(),
+        println!("{:} {:o} {:>10} {:<19} {}", String::from_utf8(vec!(entry.state)).unwrap(),
                  entry.mode & 0o0777, entry.size,
                  {
                      if entry.mtime == -1 {
