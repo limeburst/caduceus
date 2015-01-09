@@ -14,3 +14,4 @@ name = "ht"
 
 [dependencies]
 time = "*"
+ascii = "*"
