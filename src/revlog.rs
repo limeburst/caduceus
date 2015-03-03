@@ -1,4 +1,4 @@
-use serialize::hex::ToHex;
+use rustc_serialize::hex::ToHex;
 
 /// The revlog record.
 struct RevlogRecord {

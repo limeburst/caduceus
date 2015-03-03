@@ -1,7 +1,7 @@
 //! Hematite; Mercurial implementation in Rust.
 
+extern crate "rustc-serialize" as rustc_serialize;
 extern crate ascii;
-extern crate serialize;
 extern crate time;
 
 use ascii::AsciiCast;

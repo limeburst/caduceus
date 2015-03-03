@@ -13,5 +13,6 @@ license = "GPL-2.0"
 name = "ht"
 
 [dependencies]
-time = "*"
 ascii = "*"
+rustc-serialize = "*"
+time = "*"
