@@ -5,8 +5,9 @@ extern crate serialize;
 extern crate time;
 
 use ascii::AsciiCast;
-use std::io::File;
-use std::path::BytesContainer;
+use std::old_io::File;
+use std::old_path::BytesContainer;
+use time::Timespec;
 
 mod dirstate;
 mod revlog;
@@ -28,19 +29,16 @@ fn debugdirstate() {
     let mut dirstate = dirstate::Dirstate::from_reader(&mut f);
     dirstate.entries.sort_by(|a, b| a.name.cmp(&b.name));
     for entry in dirstate.entries.iter() {
-        println!("{:} {:o} {:>10} {:<19} {}", entry.state.to_ascii(),
-                 entry.mode & 0o0777, entry.size,
-                 {
-                     if entry.mtime == -1 {
-                         "unset".to_string()
-                     } else {
-                         time::at(time::Timespec {
-                             sec:entry.mtime as i64,
-                             nsec: 0,
-                         }).strftime("%Y-%m-%d %H:%M:%S").to_string()
-                     }
-                 },
-                 entry.name.container_as_str().unwrap());
+        print!("{} {:o} {:>10} ", entry.state.to_ascii().unwrap(), entry.mode & 0o0777,
+               entry.size);
+        if entry.mtime == -1 {
+            print!("{:<19}", "unset")
+        } else {
+            print!("{:<19}", time::at(Timespec {
+                sec: entry.mtime as i64,
+                nsec: 0}).strftime("%Y-%m-%d %H:%M:%S").unwrap().to_string())
+        }
+        println!(" {}", entry.name.container_as_str().unwrap())
     }
 }
 

@@ -29,7 +29,7 @@ impl Dirstate {
             let size = f.read_be_u32().unwrap();
             let mtime = f.read_be_u32().unwrap();
             let namelen = f.read_be_u32().unwrap();
-            let name = f.read_exact(namelen as uint).unwrap();
+            let name = f.read_exact(namelen as usize).unwrap();
             let entry = DirstateEntry {
                 state: state,
                 mode: mode,

@@ -43,7 +43,7 @@ impl Revlog {
             let p1 = f.read_be_i32().unwrap();
             let p2 = f.read_be_i32().unwrap();
             let nodeid = f.read_exact(32).unwrap();
-            let data = f.read_exact(clen as uint).unwrap();
+            let data = f.read_exact(clen as usize).unwrap();
             let record = RevlogRecord {
                 offset: offset,
                 clen: clen,
