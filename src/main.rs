@@ -63,7 +63,7 @@ fn debugindex(args: Vec<String>) {
                      if record.p1 == -1 {
                          nullrev.to_string()
                      } else {
-                         index.records.get(record.p1 as uint)
+                         index.records.get(record.p1 as usize)
                                       .unwrap()
                                       .shortid()
                      }
@@ -72,7 +72,7 @@ fn debugindex(args: Vec<String>) {
                      if record.p2 == -1 {
                          nullrev.to_string()
                      } else {
-                         index.records.get(record.p2 as uint)
+                         index.records.get(record.p2 as usize)
                                       .unwrap()
                                       .shortid()
                      }
