@@ -1,4 +1,4 @@
-//! Hematite; Mercurial implementation in Rust.
+//! Caduceus; Mercurial implementation in Rust.
 
 extern crate "rustc-serialize" as rustc_serialize;
 extern crate ascii;
@@ -15,7 +15,7 @@ mod revlog;
 fn usage() {
     //! Print usage for the `hg` command.
     print!("\
-Hematite Distributed SCM
+Caduceus Distributed SCM
 
  debugdirstate   show the contents of the current dirstate
  debugindex      dump the contents of an index file

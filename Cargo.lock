@@ -1,5 +1,5 @@
 [root]
-name = "hematite"
+name = "caduceus"
 version = "0.0.1"
 dependencies = [
  "ascii 0.2.5 (registry+https://github.com/rust-lang/crates.io-index)",
