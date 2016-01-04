@@ -1,12 +1,16 @@
 //! Caduceus; Mercurial implementation in Rust.
 
-extern crate "rustc-serialize" as rustc_serialize;
+#![feature(negate_unsigned)]
+
 extern crate ascii;
+extern crate byteorder;
+extern crate rustc_serialize;
 extern crate time;
 
+use std::fs::File;
+use std::path::Path;
+
 use ascii::AsciiCast;
-use std::old_io::File;
-use std::old_path::BytesContainer;
 use time::Timespec;
 
 mod dirstate;
@@ -25,7 +29,7 @@ Caduceus Distributed SCM
 fn debugdirstate() {
     //! Show the contents of the current dirstate.
     let path = &Path::new(".hg/dirstate");
-    let mut f = File::open(path);
+    let mut f = File::open(path).unwrap();
     let mut dirstate = dirstate::Dirstate::from_reader(&mut f);
     dirstate.entries.sort_by(|a, b| a.name.cmp(&b.name));
     for entry in dirstate.entries.iter() {
@@ -38,19 +42,19 @@ fn debugdirstate() {
                 sec: entry.mtime as i64,
                 nsec: 0}).strftime("%Y-%m-%d %H:%M:%S").unwrap().to_string())
         }
-        println!(" {}", entry.name.container_as_str().unwrap())
+        println!(" {}", String::from_utf8(entry.name.clone()).unwrap())
     }
 }
 
 fn debugindex(args: Vec<String>) {
     //! Dump the contents of an index file.
-    let index_filename = match args[2].as_slice() {
+    let index_filename = match args[2].as_ref() {
         "-c" => ".hg/store/00changelog.i",
         "-m" => ".hg/store/00manifest.i",
-        _    => args[2].as_slice(),
+        _    => args[2].as_ref(),
     };
     let path = &Path::new(index_filename);
-    let mut f = File::open(path);
+    let mut f = File::open(path).unwrap();
     let index = revlog::Revlog::from_reader(&mut f);
     let nullrev = "000000000000";
     println!("{:>6}{:>10}{:>8}{:>7}{:>8} {:<12} {:<12} {:<12}", "rev",
@@ -82,11 +86,11 @@ fn debugindex(args: Vec<String>) {
 
 fn main() {
     //! Main entry point.
-    let args = std::os::args();
+    let args: Vec<String> = std::env::args().collect();
     if args.len() < 2 {
         usage();
     } else {
-        match args[1].as_slice() {
+        match args[1].as_ref() {
             "debugdirstate" => debugdirstate(),
             "debugindex"    => debugindex(args),
             _               => usage(),

@@ -1,7 +1,10 @@
+use std::io::Read;
+
 use rustc_serialize::hex::ToHex;
+use byteorder::{ReadBytesExt, BigEndian};
 
 /// The revlog record.
-struct RevlogRecord {
+pub struct RevlogRecord {
     pub offset: u64,
     pub clen: u32,
     pub ulen: u32,
@@ -20,11 +23,11 @@ pub struct Revlog {
 }
 
 impl Revlog {
-    pub fn from_reader(f: &mut Reader) -> Revlog {
+    pub fn from_reader(f: &mut Read) -> Revlog {
         let mut records = Vec::new();
         let mut version = 0;
         loop {
-            let header = match f.read_be_u64() {
+            let header = match f.read_u64::<BigEndian>() {
                 Ok(x)   => x,
                 Err(_)  => break,
             };
@@ -36,14 +39,16 @@ impl Revlog {
                     header >> 16
                 }
             };
-            let clen = f.read_be_u32().unwrap();
-            let ulen = f.read_be_u32().unwrap();
-            let base = f.read_be_i32().unwrap();
-            let link = f.read_be_i32().unwrap();
-            let p1 = f.read_be_i32().unwrap();
-            let p2 = f.read_be_i32().unwrap();
-            let nodeid = f.read_exact(32).unwrap();
-            let data = f.read_exact(clen as usize).unwrap();
+            let clen = f.read_u32::<BigEndian>().unwrap();
+            let ulen = f.read_u32::<BigEndian>().unwrap();
+            let base = f.read_i32::<BigEndian>().unwrap();
+            let link = f.read_i32::<BigEndian>().unwrap();
+            let p1 = f.read_i32::<BigEndian>().unwrap();
+            let p2 = f.read_i32::<BigEndian>().unwrap();
+            let mut nodeid = Vec::with_capacity(32);
+            let _ = f.read_exact(&mut nodeid);
+            let mut data = Vec::with_capacity(clen as usize);
+            let _ = f.read_exact(&mut data);
             let record = RevlogRecord {
                 offset: offset,
                 clen: clen,

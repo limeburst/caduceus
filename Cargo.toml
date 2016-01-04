@@ -13,6 +13,7 @@ license = "GPL-2.0"
 name = "cs"
 
 [dependencies]
-ascii = "*"
-rustc-serialize = "*"
-time = "*"
+ascii = "0.6.0"
+byteorder = "0.4.2"
+rustc-serialize = "0.3.16"
+time = "0.1.34"

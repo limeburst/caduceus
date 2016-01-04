@@ -1,3 +1,7 @@
+use std::io::Read;
+
+use byteorder::{ReadBytesExt, BigEndian};
+
 /// Dirstate entry record.
 pub struct DirstateEntry {
     pub state: u8,
@@ -16,20 +20,23 @@ pub struct Dirstate {
 }
 
 impl Dirstate {
-    pub fn from_reader(f: &mut Reader) -> Dirstate {
+    pub fn from_reader(f: &mut Read) -> Dirstate {
         let mut entries = Vec::new();
-        let fphash = f.read_exact(20).unwrap();
-        let sphash = f.read_exact(20).unwrap();
+        let mut fphash = Vec::with_capacity(20);
+        let _ = f.read_exact(&mut fphash);
+        let mut sphash = Vec::with_capacity(20);
+        let _ = f.read_exact(&mut sphash);
         loop {
             let state = match f.read_u8() {
                 Ok(x)   => x,
                 Err(_)  => break,
             };
-            let mode = f.read_be_u32().unwrap();
-            let size = f.read_be_u32().unwrap();
-            let mtime = f.read_be_u32().unwrap();
-            let namelen = f.read_be_u32().unwrap();
-            let name = f.read_exact(namelen as usize).unwrap();
+            let mode = f.read_u32::<BigEndian>().unwrap();
+            let size = f.read_u32::<BigEndian>().unwrap();
+            let mtime = f.read_u32::<BigEndian>().unwrap();
+            let namelen = f.read_u32::<BigEndian>().unwrap();
+            let mut name = Vec::with_capacity(namelen as usize);
+            let _ = f.read_exact(&mut name);
             let entry = DirstateEntry {
                 state: state,
                 mode: mode,
