@@ -1,7 +1,5 @@
 //! Caduceus; Mercurial implementation in Rust.
 
-#![feature(negate_unsigned)]
-
 extern crate ascii;
 extern crate byteorder;
 extern crate rustc_serialize;
@@ -35,7 +33,7 @@ fn debugdirstate() {
     for entry in dirstate.entries.iter() {
         print!("{} {:o} {:>10} ", entry.state.to_ascii().unwrap(), entry.mode & 0o0777,
                entry.size);
-        if entry.mtime == -1 {
+        if entry.mtime == u32::max_value() {
             print!("{:<19}", "unset")
         } else {
             print!("{:<19}", time::at(Timespec {
@@ -64,7 +62,7 @@ fn debugindex(args: Vec<String>) {
                  record.offset, record.clen, record.base, record.link,
                  record.shortid(),
                  {
-                     if record.p1 == -1 {
+                     if record.p1 == i32::max_value() {
                          nullrev.to_string()
                      } else {
                          index.records.get(record.p1 as usize)
@@ -73,7 +71,7 @@ fn debugindex(args: Vec<String>) {
                      }
                  },
                  {
-                     if record.p2 == -1 {
+                     if record.p2 == i32::max_value() {
                          nullrev.to_string()
                      } else {
                          index.records.get(record.p2 as usize)
